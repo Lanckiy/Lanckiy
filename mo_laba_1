@@ -115,8 +115,8 @@ int main()
 		}
 		if (min != 0)
 		{
-			float	new_min = 100;
-			//min = simp[1][1] / simp[1][2];
+			float	new_min;
+			min = simp[1][1] / simp[1][2];
 			for (int i = 1; i < 4; i++)
 			{
 				if (simp[i][r] == 0)
