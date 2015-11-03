@@ -1,0 +1,175 @@
+// MO_laba_1.cpp: определяет точку входа для консольного приложения.
+//
+#define _CRT_SECURE_NO_WARNINGS
+
+#include "stdafx.h"
+
+
+int main()
+{
+	using namespace std;
+
+	setlocale(LC_ALL, "rus"); 
+	int q=0;
+	int  m = 5, n = 5;
+	double** simp = new double*[m];
+	for (int i = 0; i < m; i++)
+	{
+		simp[i] = new double[n];
+	}
+	for (int i = 0; i<5; i++) {
+		for (int j = 0; j<5; j++) {
+
+			if ((i==0 & j>1)|(i>j & j<1 & q<6))
+			{
+				q++;
+				simp[i][j] = q;
+				
+			}
+			else
+			simp[i][j] = 0;
+			
+		}
+	}
+	//ввод данных
+	cout<<"\nВведите коэффициенты функции (С): \n";
+	for (int i = 2; i<5; i++) {
+		cin >> n;
+		simp[4][i]=-n;
+	}
+
+	cout<<"\nВведите матрицу ограничений (А): \n";
+	for (int i = 1; i<4; i++) {
+		for (int j = 2; j<5; j++) {
+			cin>> simp[i][j];
+		}
+	}
+
+	cout<<"\nВведите матрицу свободных коэффициентов (B): \n";
+	for (int i = 1; i<4; i++) {
+		cin>> simp[i][1];
+	}
+
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			printf("%2.3f\t", simp[i][j]);
+		}
+		cout << endl;
+	}
+		cout << endl;
+		
+		while (1)
+		{
+			/*int w = 0, g = 0;
+			float otric = 0;*/
+			for (int i = 1; i < 4; i++)
+			{
+				if (simp[i][1] < 0)
+				{/*	w = i;*/
+					cout << "Система не доведена до опорного решения, требуется доработка\n";
+					system("pause");
+					exit(0);
+				}
+			}
+			
+			//for (int j = 1; j < 5; j++)
+			//{
+			//	if (simp[w][j] < 0)
+			//		w = j;//столбец
+			//}
+			//otric = simp[1][1] / simp[1][w];
+			//for (int i = 1; i < 4; i++)
+			//{
+			//	if (simp[i][w] == 0)
+			//		continue;
+			//	if (simp[i][1] / simp[i][w] < otric)
+			//	{
+			//		g = i;// строка
+			//		otric = simp[i][1] / simp[i][w];
+			//	}
+			//}
+			//swap(simp[0][w], simp[g][0]);
+			//for (int i = 1; i < 4; i++)
+			//{
+			//	if (simp[i][1] < 0)
+			//	{
+			//		continue;
+			//	}
+			//	else
+			//		break;
+			//}
+	}	
+
+	// поиск опорного решения пропускаем, переходим сразу к поиску
+	while (1)
+	{
+		int r = 0, k = 0;
+		float min = 0;
+		for (int j = 2; j < 5; j++)
+		{
+			if ((simp[4][j] <= 0) && (simp[4][j] <= min))
+			{
+				min = simp[4][j];
+				r = j;// столбик
+			}
+		}
+		if (min != 0)
+		{
+			float	new_min = 100;
+			//min = simp[1][1] / simp[1][2];
+			for (int i = 1; i < 4; i++)
+			{
+				if (simp[i][r] == 0)
+					continue;
+				if (simp[i][1] / simp[i][r] < new_min)
+				{
+					k = i;// строка
+					new_min = simp[i][1] / simp[i][r];
+				}
+			}
+		    swap(simp[0][r], simp[k][0]);
+
+			float **new_simp;
+
+			new_simp = new float*[5];
+			for (int i = 0; i < 5; i++)
+			{
+				new_simp[i] = new float[5];
+				for (int j = 0; j < 5; j++)
+					new_simp[i][j] = simp[i][j];
+			}
+
+
+			new_simp[k][r] = 1 / simp[k][r];
+			for (int j = 1; j < 5; j++)
+				if (j != r)
+					new_simp[k][j] = simp[k][j] / simp[k][r];
+
+			for (int i = 1; i < 5; i++)
+				if (i != k)
+					new_simp[i][r] = -simp[i][r] / simp[k][r];
+
+			for (int j = 1; j < 5; j++)
+				for (int i = 1; i < 5; i++)
+					if ((j != r) && (i != k))
+						new_simp[i][j] = simp[i][j] - (simp[i][r] * simp[k][j]) / simp[k][r];
+
+			for (int i = 0; i < 5; i++)
+				for (int j = 0; j < 5; j++)
+					simp[i][j] = new_simp[i][j];
+			for (int i = 0; i < 5; i++) {
+				for (int j = 0; j < 5; j++) {
+					printf("%2.3f\t", simp[i][j]);
+				}
+				cout << endl;
+			}
+			cout << endl;
+		}
+	else
+	break;
+	k = 0;
+	}
+	system("pause");
+	return 0;
+}
+
